@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/accountListFragment"
+        android:title="@string/account_list"
+        android:icon="@drawable/ic_menu_account_list"
+        android:text="@string/account_list_label"
+        app:showAsAction="ifRoom|withText"/>
+
+</menu>

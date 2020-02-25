@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:theme="@style/TextViewRecyclerView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    android:layout_marginLeft="8dp">
+
+
+    <TextView
+        android:id="@+id/member_name"
+        android:layout_width="0dp"
+        android:layout_weight="5"
+        android:layout_height="wrap_content"
+        android:maxLength="10"
+        android:text="@string/member_name_label" />
+
+    <TextView
+        android:id="@+id/total_income"
+        android:layout_width="0dp"
+        android:layout_weight="4"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/holo_green_light"
+        tools:text="@string/default_value_label" />
+
+    <TextView
+        android:id="@+id/total_expense"
+        android:layout_width="0dp"
+        android:layout_weight="4"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/holo_red_dark"
+        tools:text="@string/default_value_label" />
+
+    <TextView
+        android:id="@+id/today_expense"
+        android:layout_width="0dp"
+        android:layout_weight="4"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/holo_red_dark"
+        tools:text="@string/default_value_label" />
+
+    <TextView
+        android:id="@+id/total_balance"
+        android:layout_width="0dp"
+        android:layout_weight="4"
+        android:layout_height="wrap_content"
+        tools:text="@string/default_value_label" />
+
+</LinearLayout>

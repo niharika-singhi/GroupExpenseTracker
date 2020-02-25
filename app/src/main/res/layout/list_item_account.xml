@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:padding="8dp"
+    android:background="@drawable/border"
+    android:layout_marginTop="16dp"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp">
+
+    <TextView
+        android:id="@+id/account_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="@string/account_name_label" />
+
+    <TextView
+        android:id="@+id/account_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/account_name"
+        tools:text="Account description"
+        android:textSize="15sp"
+        android:maxLength="50"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+
+    <TextView
+        android:id="@+id/account_balance_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/account_description"
+        android:text="@string/account_balance_label" />
+
+    <TextView
+        android:id="@+id/account_currency"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_toEndOf="@id/account_balance_label"
+        android:layout_below="@id/account_description"
+        android:layout_toRightOf="@+id/account_balance_label"
+        android:layout_alignBaseline="@id/account_balance_label"
+        tools:text="INR" />
+
+    <TextView
+        android:id="@+id/account_income_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:textColor="@android:color/holo_green_dark"
+        tools:text="@string/default_value_label" />
+
+    <TextView
+        android:id="@+id/account_expense_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/account_income_value"
+        android:textColor="@android:color/holo_red_dark"
+        tools:text="@string/default_value_label" />
+
+    <TextView
+        android:id="@+id/account_balance_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/account_expense_value"
+        android:layout_alignParentEnd="true"
+        android:layout_alignBaseline="@id/account_balance_label"
+        tools:text="@string/default_value_label" />
+
+
+
+</RelativeLayout>

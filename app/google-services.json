@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "541393111812",
+    "firebase_url": "https://groupexpensetracker-fd236.firebaseio.com",
+    "project_id": "groupexpensetracker-fd236",
+    "storage_bucket": "groupexpensetracker-fd236.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:541393111812:android:593010532bffc100",
+        "android_client_info": {
+          "package_name": "com.niharika.android.groupexpensetracker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "541393111812-3vfgp78pb0eoc8bsvec0h3ltgko529tl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.niharika.android.groupexpensetracker",
+            "certificate_hash": "74d54cedd3d1366fdc81f7294c4467d861705e29"
+          }
+        },
+        {
+          "client_id": "541393111812-0rtguglbv2reet3rj50qd565jphodcml.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLeGcNnRARUxay1pw3Lto7-_ZzXDkajyA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "541393111812-0rtguglbv2reet3rj50qd565jphodcml.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

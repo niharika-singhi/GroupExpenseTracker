@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_search"
+        android:icon="@drawable/ic_search"
+        android:orderInCategory="100"
+        android:title="@string/action_search"
+        app:showAsAction="always"
+        app:actionViewClass="androidx.appcompat.widget.SearchView" />
+    <item
+        android:id="@+id/all_transactions"
+        android:title="All"
+        android:text="@string/all_transactions"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/today_transactions"
+        android:title="Today"
+        android:text="@string/today_transactions"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/weekly_transactions"
+        android:title="Weekly"
+        android:text="@string/weekly_transactions"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/monthly_transactions"
+        android:title="Monthly"
+        android:text="@string/monthly_transactions"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/yearly_transactions"
+        android:title="Yearly"
+        android:text="@string/yearly_transactions"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/expense_transactions"
+        android:title="Expenses"
+        android:text="@string/expense_transactions"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/income_transactions"
+        android:title="Incomes"
+        android:text="@string/income_transactions"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/account_transfers_transactions"
+        android:title="Account Transfers"
+        android:text="@string/account_transfers"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/member_transactions"
+        android:title="By Member"
+        android:text="@string/member_transactions"
+        app:showAsAction="never">
+    <menu android:id="@+id/member_menu">
+
+
+    </menu>
+        </item>
+
+</menu>

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_graph"
+    app:startDestination="@id/mainFragment">
+
+    <fragment
+        android:id="@+id/accountTabFragment"
+        android:name="com.niharika.android.groupexpensetracker.AccountTabFragment"
+        android:label="fragment_account_tab"
+        tools:layout="@layout/fragment_account_tab" >
+        <action
+            android:id="@+id/action_accountTabFragment_to_addAccountFragment"
+            app:destination="@id/addAccountFragment" />
+        <action
+            android:id="@+id/action_accountTabFragment_to_transactionFragment"
+            app:destination="@id/transactionFragment" />
+        <action
+            android:id="@+id/action_accountTabFragment_to_transactionListFragment"
+            app:destination="@id/transactionListFragment" />
+        <action
+            android:id="@+id/action_accountTabFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@+id/loginFragment"
+            app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_accountTabFragment_to_editMemberFragment"
+            app:destination="@id/editMemberFragment" />
+        <action
+            android:id="@+id/action_accountTabFragment_to_memberListFragment"
+            app:destination="@id/memberListFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/accountListFragment"
+        android:name="com.niharika.android.groupexpensetracker.AccountListFragment"
+        android:label="fragment_account_list"
+        tools:layout="@layout/fragment_account_list">
+        <action
+            android:id="@+id/action_accountListFragment_to_addAccountFragment"
+            app:destination="@id/addAccountFragment" />
+        <action
+            android:id="@+id/action_accountListFragment_to_accountTabFragment"
+            app:destination="@id/accountTabFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addAccountFragment"
+        android:name="com.niharika.android.groupexpensetracker.AddAccountFragment"
+        android:label="fragment_add_account"
+        tools:layout="@layout/fragment_add_account" >
+        <action
+            android:id="@+id/action_addAccountFragment_to_accountTabFragment"
+            app:destination="@id/accountTabFragment"
+            app:popUpTo="@+id/accountTabFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_addAccountFragment_to_accountListFragment"
+            app:destination="@id/accountListFragment"
+            app:popUpTo="@+id/accountTabFragment" />
+        <action
+            android:id="@+id/action_addAccountFragment_to_editMemberFragment"
+            app:destination="@id/editMemberFragment" />
+        <action
+            android:id="@+id/action_addAccountFragment_to_accountTabFragment2"
+            app:popUpTo="@id/accountTabFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/transactionFragment"
+        android:name="com.niharika.android.groupexpensetracker.TransactionFragment"
+        android:label="fragment_transaction"
+        tools:layout="@layout/fragment_transaction" >
+        <action
+            android:id="@+id/action_transactionFragment_to_accountTabFragment"
+            app:destination="@id/accountTabFragment"
+            app:popUpTo="@+id/accountTabFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_transactionFragment_to_transactionListFragment"
+            app:destination="@+id/transactionListFragment"
+            app:popUpTo="@+id/accountTabFragment" />
+        <action
+            android:id="@+id/action_transactionFragment_to_accountTabFragment2"
+            app:popUpTo="@id/accountTabFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/transactionListFragment"
+        android:name="com.niharika.android.groupexpensetracker.TransactionListFragment"
+        android:label="fragment_transaction_list"
+        tools:layout="@layout/fragment_transaction_list" >
+        <action
+            android:id="@+id/action_transactionListFragment_to_transactionFragment"
+            app:destination="@+id/transactionFragment" />
+        <action
+            android:id="@+id/action_transactionListFragment_to_accountTabFragment"
+            app:destination="@+id/accountTabFragment" />
+        <action
+            android:id="@+id/action_transactionListFragment_to_accountTabFragment2"
+            app:popUpTo="@id/accountTabFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.niharika.android.groupexpensetracker.MainFragment"
+        android:label="fragment_main"
+        tools:layout="@layout/fragment_main" >
+        <action
+            android:id="@+id/action_mainFragment_to_accountTabFragment"
+            app:destination="@id/accountTabFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.niharika.android.groupexpensetracker.RegisterFragment"
+        android:label="fragment_register"
+        tools:layout="@layout/fragment_register" >
+        <action
+            android:id="@+id/action_registerFragment_to_accountTabFragment"
+            app:destination="@id/accountTabFragment"
+            app:popUpTo="@+id/accountTabFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_registerFragment_self"
+            app:destination="@+id/registerFragment"
+            app:popUpTo="@id/registerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editMemberFragment"
+        android:name="com.niharika.android.groupexpensetracker.EditMemberFragment"
+        android:label="fragment_edit_member"
+        tools:layout="@layout/fragment_edit_member" >
+        <action
+            android:id="@+id/action_editMemberFragment_to_accountTabFragment"
+            app:destination="@id/accountTabFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/memberListFragment"
+        android:name="com.niharika.android.groupexpensetracker.MemberListFragment"
+        android:label="fragment_member_list"
+        tools:layout="@layout/fragment_member_list" >
+        <action
+            android:id="@+id/action_memberListFragment_to_editMemberFragment"
+            app:destination="@id/editMemberFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/errFragment"
+        android:name="com.niharika.android.groupexpensetracker.errFragment"
+        android:label="fragment_err"
+        tools:layout="@layout/fragment_err" />
+    <fragment
+        android:id="@+id/summaryFragment"
+        android:name="com.niharika.android.groupexpensetracker.SummaryFragment"
+        android:label="fragment_summary"
+        tools:layout="@layout/fragment_summary" />
+    <fragment
+        android:id="@+id/FAQFragment"
+        android:name="com.niharika.android.groupexpensetracker.FAQFragment"
+        android:label="fragment_faq"
+        tools:layout="@layout/fragment_faq" >
+    </fragment>
+
+</navigation>
