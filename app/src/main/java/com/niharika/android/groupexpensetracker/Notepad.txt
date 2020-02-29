@@ -1,5 +1,6 @@
--share url and in email
--permission request
+-unable to login through phone
+-share app link
+-share app link in the email of the person added
 
 
 D:\niharika\android\GroupExpenseTracker\keystore\keystore.jks
