@@ -1,9 +1,11 @@
 package com.niharika.android.groupexpensetracker;
 
 
+import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -420,12 +422,15 @@ public class AddAccountFragment extends Fragment {
                 if (!AccountLab.get(getActivity()).isNetworkAvailableAndConnected()) {
                     Navigation.findNavController(view).navigate(R.id.errFragment);
                 } else {
-                    final Intent pickContact = new Intent(Intent.ACTION_PICK,
-                            ContactsContract.Contacts.CONTENT_URI);
-                    startActivityForResult(pickContact, REQUEST_CONTACT);
+                    if(AccountLab.get(getActivity()).checkPermissionRequired("Manifest.permission.READ_CONTACTS"))
+                        callIntentImportContacts();
+                    else
+                        requestForSpecificPermission();
+
                 }
             }
         });
+
         mAddMember.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -445,6 +450,12 @@ public class AddAccountFragment extends Fragment {
             loadAccountDetails();
         updateMemberUI();
         return view;
+    }
+
+    private void callIntentImportContacts() {
+        final Intent pickContact = new Intent(Intent.ACTION_PICK,
+                ContactsContract.Contacts.CONTENT_URI);
+        startActivityForResult(pickContact, REQUEST_CONTACT);
     }
 
     public void updateMemberUI() {
@@ -563,6 +574,34 @@ public class AddAccountFragment extends Fragment {
         @Override
         public int getItemCount() {
             return memberList.size();
+        }
+    }
+
+    private void requestForSpecificPermission() {
+        requestPermissions(new String[]
+                {Manifest.permission.READ_CONTACTS, Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE}, 101);
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case 101:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    callIntentImportContacts();
+                } else {
+                    new AlertDialog.Builder(new ContextThemeWrapper(getActivity(), R.style.MyDialogTheme))
+                            .setTitle(R.string.alert_dialog_set_member_not_added)
+                            .setMessage(R.string.alert_dialog_no_permission_text)
+                            .setPositiveButton(android.R.string.yes, null)
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .show();
+                }
+                break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
         }
     }
 }

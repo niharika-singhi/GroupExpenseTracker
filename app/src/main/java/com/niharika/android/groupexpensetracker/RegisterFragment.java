@@ -30,6 +30,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
+
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -101,8 +102,8 @@ public class RegisterFragment extends Fragment {
         if (getArguments() != null && getArguments().containsKey(ARG_PAGE_DISPLAY)) {
             mViewType = (String) getArguments().getSerializable(ARG_PAGE_DISPLAY);
         }
-        if(savedInstanceState!=null)
-        mVerificationInProgress = savedInstanceState.getBoolean(KEY_VERIFY_IN_PROGRESS);
+        if (savedInstanceState != null)
+            mVerificationInProgress = savedInstanceState.getBoolean(KEY_VERIFY_IN_PROGRESS);
     }
 
     private void setViewType() {
@@ -193,10 +194,10 @@ public class RegisterFragment extends Fragment {
                 inputManager.hideSoftInputFromWindow(mEmailView.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                 mLLProgress.setVisibility(View.VISIBLE);
 
-                    if (!AccountLab.get(getActivity()).isNetworkAvailableAndConnected())
-                        Navigation.findNavController(view).navigate(R.id.errFragment);
-                    else
-                        registerUser(view);
+                if (!AccountLab.get(getActivity()).isNetworkAvailableAndConnected())
+                    Navigation.findNavController(view).navigate(R.id.errFragment);
+                else
+                    registerUser(view);
 
             }
         });
@@ -259,8 +260,8 @@ public class RegisterFragment extends Fragment {
         OnBackPressedCallback callback = new OnBackPressedCallback() {
             @Override
             public boolean handleOnBackPressed() {
-                if(mViewType.equals("FP") || mViewType.equals("V"))
-                Navigation.findNavController(view).navigate(R.id.registerFragment);
+                if (mViewType.equals("FP") || mViewType.equals("V"))
+                    Navigation.findNavController(view).navigate(R.id.registerFragment);
                 else
                     getActivity().finish();
                 return true;
@@ -274,7 +275,7 @@ public class RegisterFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if(!AccountLab.get(getActivity()).checkPermissionRequired("Manifest.permission.INTERNET"))
+        if (!AccountLab.get(getActivity()).checkPermissionRequired("Manifest.permission.INTERNET"))
             requestForSpecificPermission();
     }
 
@@ -406,8 +407,7 @@ public class RegisterFragment extends Fragment {
             @Override
             public void onCallback(Member oldMember) {
                 if (oldMember != null) {
-                    if(oldMember.getUserId()==null)
-                    {
+                    if (oldMember.getUserId() == null) {
                         oldMember.setUserId(mAuth.getCurrentUser().getUid());
                         AccountLab.get(getActivity()).updateMember(oldMember);
                     }
@@ -418,7 +418,7 @@ public class RegisterFragment extends Fragment {
                     mMember.setUserId(mAuth.getCurrentUser().getUid());
                     AccountLab.get(getActivity()).addMember(mMember);
                     AccountLab.get(getActivity()).setUser(mMember);
-                   if (mMember.getEmailId() != null)
+                    if (mMember.getEmailId() != null)
                         new SendEmailTask().execute(new String[]{mMember.getEmailId(), AccountLab.get(getActivity()).getRegistrationMsg()});
                 }
                 mLLProgress.setVisibility(View.GONE);
@@ -437,10 +437,10 @@ public class RegisterFragment extends Fragment {
                         } else {
                             mLLProgress.setVisibility(View.INVISIBLE);
                             mEmailView.requestFocus();
-                            if(task.getException() instanceof FirebaseAuthUserCollisionException)
+                            if (task.getException() instanceof FirebaseAuthUserCollisionException)
                                 mEmailView.setError("The email id is already registered with us");
-                                else
-                                    mEmailView.setError("Email id or password is incorrect");
+                            else
+                                mEmailView.setError("Email id or password is incorrect");
 
 
                             return;
@@ -448,7 +448,6 @@ public class RegisterFragment extends Fragment {
                     }
                 });
     }
-
 
 
     void emailLogin() {
@@ -459,21 +458,19 @@ public class RegisterFragment extends Fragment {
                         if (task.isSuccessful()) {
                             showHome();
                         } else {
-                            if(task.getException() instanceof FirebaseAuthInvalidUserException){
-                                    mLLProgress.setVisibility(View.INVISIBLE);
-                                    mEmailView.requestFocus();
-                                    mEmailView.setError("The email id is not registered with us");
-                            }
-                            else if(task.getException() instanceof FirebaseAuthUserCollisionException ){
+                            if (task.getException() instanceof FirebaseAuthInvalidUserException) {
+                                mLLProgress.setVisibility(View.INVISIBLE);
+                                mEmailView.requestFocus();
+                                mEmailView.setError("The email id is not registered with us");
+                            } else if (task.getException() instanceof FirebaseAuthUserCollisionException) {
                                 mLLProgress.setVisibility(View.INVISIBLE);
                                 mPasswordView.requestFocus();
                                 mPasswordView.setError("The user is already registered with social logins");
+                            } else {
+                                mLLProgress.setVisibility(View.INVISIBLE);
+                                mPasswordView.requestFocus();
+                                mPasswordView.setError("Username or Password is Incorrect");
                             }
-                            else {
-                                    mLLProgress.setVisibility(View.INVISIBLE);
-                                    mPasswordView.requestFocus();
-                                    mPasswordView.setError("Username or Password is Incorrect");
-                                }
                         }
                     }
                 });
@@ -516,15 +513,14 @@ public class RegisterFragment extends Fragment {
                             mLLProgress.setVisibility(View.GONE);
                             mViewType = "L";
                             setViewType();
-                            if(task.getException() instanceof  FirebaseAuthUserCollisionException ) {
+                            if (task.getException() instanceof FirebaseAuthUserCollisionException) {
                                 mLLProgress.setVisibility(View.INVISIBLE);
 
                                 Toast.makeText(getActivity(), "The user is already registered with email/ph num", Toast.LENGTH_LONG).show();
-                                Log.d(MainFragment.TAG,"The user is already registered with email/ph num");
-                            }
-                            else{
-                            mPasswordView.setError("The password is wrong");
-                            mPasswordView.requestFocus();
+                                Log.d(MainFragment.TAG, "The user is already registered with email/ph num");
+                            } else {
+                                mPasswordView.setError("The password is wrong");
+                                mPasswordView.requestFocus();
                             }
                             LoginManager.getInstance().logOut();
                         }
@@ -559,7 +555,6 @@ public class RegisterFragment extends Fragment {
         else
             Log.d(MainFragment.TAG, "mVer fail on Start"+mVerificationInProgress);
     }*/
-
 
 
     private boolean validatePhoneNumber() {
@@ -625,14 +620,14 @@ public class RegisterFragment extends Fragment {
                     mVerCode.requestFocus();
                     return;
                 }
-                Log.d(MainFragment.TAG," after verify code");
+                Log.d(MainFragment.TAG, " after verify code");
                 PhoneAuthCredential credential = PhoneAuthProvider.getCredential(mVerificationId,
                         mVerCode.getText().toString());
-                if(!TextUtils.isEmpty(mVerCode.getText())){
+                if (!TextUtils.isEmpty(mVerCode.getText())) {
                     mVerCode.setEnabled(false);
                     mLLProgress.setVisibility(View.VISIBLE);
                     signInWithPhoneAuthCredential(credential);
-                   }
+                }
             }
         });
     }
@@ -647,17 +642,17 @@ public class RegisterFragment extends Fragment {
 
                         if (task.isSuccessful()) {
                             showHome();
-                            if(!TextUtils.isEmpty(mPasswordView.getText()))
+                            if (!TextUtils.isEmpty(mPasswordView.getText()))
                                 user.updatePassword(mPasswordView.getText().toString())
                                         .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        if (!task.isSuccessful()) {
-                                            Log.d(MainFragment.TAG, "Error password not updated"
-                                                    + task.getException());
-                                        }
-                                    }
-                                });
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (!task.isSuccessful()) {
+                                                    Log.d(MainFragment.TAG, "Error password not updated"
+                                                            + task.getException());
+                                                }
+                                            }
+                                        });
                         } else {
                             mLLProgress.setVisibility(View.INVISIBLE);
                             if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
@@ -684,8 +679,6 @@ public class RegisterFragment extends Fragment {
     }*/
 
 
-
-
     PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
 
         @Override
@@ -693,7 +686,7 @@ public class RegisterFragment extends Fragment {
             mVerificationInProgress = false;
             signInWithPhoneAuthCredential(phoneAuthCredential);
         }
-       
+
 
         @Override
         public void onVerificationFailed(FirebaseException e) {
@@ -705,7 +698,7 @@ public class RegisterFragment extends Fragment {
                 Toast.makeText(getActivity(), "Invalid Request " + e.toString(), Toast.LENGTH_SHORT).show();
                 Log.d(MainFragment.TAG, "invalid req" + e.toString());
             } else if (e instanceof FirebaseTooManyRequestsException) {
-                Toast.makeText(getActivity(), "Too many requests from this device.Try after some time" , Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Too many requests from this device.Try after some time", Toast.LENGTH_SHORT).show();
                 Log.d(MainFragment.TAG, "sms quota" + e.toString());
             }
         }

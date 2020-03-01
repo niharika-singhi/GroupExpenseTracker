@@ -7,6 +7,13 @@
 -create a table and read email and password from der for sender email details
 -the app crashes when its opening and u go to another acivity
 
+chk dis
+ java.lang.NullPointerException: Can't pass null for argument 'pathString' in child()
+        at com.google.firebase.database.DatabaseReference.child(com.google.firebase:firebase-database@@19.0.0:96)
+        at com.niharika.android.groupexpensetracker.AccountLab.loadAccounts(AccountLab.java:149)
+        at com.niharika.android.groupexpensetracker.AccountTabFragment.updateUI(AccountTabFragment.java:152)
+        at com.niharika.android.groupexpensetracker.AccountTabFragment.onCreateView(AccountTabFragment.java:179)
+
 
 D:\niharika\android\GroupExpenseTracker\keystore\keystore.jks
 

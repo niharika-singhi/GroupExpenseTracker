@@ -6,22 +6,8 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.view.ContextThemeWrapper;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.provider.ContactsContract;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +17,14 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.view.ContextThemeWrapper;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -164,14 +158,14 @@ public class AccountFragment extends Fragment {
         mWeekDate = (TextView) view.findViewById(R.id.week_date_label);
         mMonthDate = (TextView) view.findViewById(R.id.month_date_label);
         mYearDate = (TextView) view.findViewById(R.id.year_date_label);
-
-        AccountLab.get(getActivity()).getTotalIncome(mAccount, new AccountLab.FirebaseCallbackCalculateTransaction() {
-            @Override
-            public void onCallback(Double value) {
-                mTodayIncome = value;
-                mTodayIncomeValue.setText(value.toString());
-            }
-        }, "T", null);
+        AccountLab.get(getActivity()).getTotalIncome(mAccount,
+                new AccountLab.FirebaseCallbackCalculateTransaction() {
+                    @Override
+                    public void onCallback(Double value) {
+                        mTodayIncome = value;
+                        mTodayIncomeValue.setText(value.toString());
+                    }
+                }, "T", null);
 
 
         mWeekIncomeValue = (TextView) view.findViewById(R.id.week_income_value);
@@ -278,9 +272,10 @@ public class AccountFragment extends Fragment {
                 if (!AccountLab.get(getActivity()).isNetworkAvailableAndConnected())
                     Navigation.findNavController(view).navigate(R.id.errFragment);
                 else {
-                    if(requestPermission())
+                    if (AccountLab.get(getActivity()).checkPermissionRequired("Manifest.permission.READ_CONTACTS"))
                         callIntentImportContacts();
-
+                    else
+                        requestForSpecificPermission();
                 }
             }
         });
@@ -299,6 +294,7 @@ public class AccountFragment extends Fragment {
 
             }
         });
+
         showMembers();
         mAddMember.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -616,28 +612,6 @@ public class AccountFragment extends Fragment {
             newMemberFlag = false;
         }
         updateMemberUI();
-    }
-
-    boolean requestPermission() {
-        int MyVersion = Build.VERSION.SDK_INT;
-        if (MyVersion > Build.VERSION_CODES.LOLLIPOP_MR1) {
-            if (!checkIfAlreadyhavePermission()) {
-                requestForSpecificPermission();
-                return false;
-            }
-
-        }
-        return true;
-    }
-
-    private boolean checkIfAlreadyhavePermission() {
-        int result = ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_CONTACTS);
-        if (result == PackageManager.PERMISSION_GRANTED) {
-            return true;
-
-        } else {
-            return false;
-        }
     }
 
     private void requestForSpecificPermission() {

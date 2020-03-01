@@ -14,6 +14,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.viewpager.widget.ViewPager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -84,7 +85,9 @@ public class AccountTabFragment extends Fragment {
 
     public void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
-        //savedInstanceState.putSerializable(Key, AccountLab.get(getActivity()).getUser().getMemberId());
+
+        savedInstanceState.putSerializable(Key, AccountLab.get(getActivity()).getUser().getMemberId());
+        Log.d(MainFragment.TAG,"in saving"+AccountLab.get(getActivity()).getUser().getMemberId());
     }
 
     protected void showAccounts() {
@@ -176,6 +179,7 @@ public class AccountTabFragment extends Fragment {
             if (savedInstanceState != null) {
                 mMemberId = (String) savedInstanceState.getSerializable(Key);
                 AccountLab.get(getActivity()).setUser(new Member(mMemberId));
+                Log.d(MainFragment.TAG,"user is"+mMemberId);
                 updateUI();
             } else {
                 String typeOfLogin;
