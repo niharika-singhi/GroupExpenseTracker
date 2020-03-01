@@ -224,7 +224,8 @@ public class AddAccountFragment extends Fragment {
 
         }
         if (newMemberFlag && member.getEmailId() != null) {
-            new SendEmailTask().execute(new String[]{member.getEmailId(), AccountLab.get(getActivity()).getNewMemberMsg()});
+            new SendEmailTask().execute(new String[]{member.getEmailId(),
+                    AccountLab.get(getActivity()).getNewMemberMsg()});
             newMemberFlag = false;
         }
         AccountLab.get(getActivity()).updateMember(member);

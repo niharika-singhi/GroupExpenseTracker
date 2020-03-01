@@ -178,11 +178,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
 
             case R.id.nav_share:
-                Intent intent = new Intent();
-                intent.setAction(Intent.ACTION_VIEW);
-                intent.addCategory(Intent.CATEGORY_BROWSABLE);
-                intent.setData(Uri.parse(getString(R.string.playstoreLink)));
-                startActivity(intent);
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.setType("text/plain");
+                //intent.setAction(Intent.ACTION_VIEW);
+                shareIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name));
+                shareIntent.putExtra(Intent.EXTRA_TEXT,getString(R.string.playstoreLink)
+                        +BuildConfig.APPLICATION_ID );
+                startActivity(Intent.createChooser(shareIntent, "Choose one"));
                 break;
             case R.id.nav_settings:
                 if (currentUser != null)
@@ -190,6 +192,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 else
                     navController.navigate(R.id.registerFragment, bundle);
                 break;
+
             case R.id.nav_faq:
                 Navigation.findNavController(MainActivity.this, R.id.nav_host_fragment).navigate(R.id.FAQFragment);
                 break;

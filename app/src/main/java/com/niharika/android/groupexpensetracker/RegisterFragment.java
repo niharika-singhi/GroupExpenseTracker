@@ -1,9 +1,11 @@
 package com.niharika.android.groupexpensetracker;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -23,6 +25,7 @@ import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.fragment.app.Fragment;
@@ -189,10 +192,12 @@ public class RegisterFragment extends Fragment {
                 InputMethodManager inputManager = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                 inputManager.hideSoftInputFromWindow(mEmailView.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                 mLLProgress.setVisibility(View.VISIBLE);
-                if (!AccountLab.get(getActivity()).isNetworkAvailableAndConnected())
-                    Navigation.findNavController(view).navigate(R.id.errFragment);
-                else
-                    registerUser(view);
+
+                    if (!AccountLab.get(getActivity()).isNetworkAvailableAndConnected())
+                        Navigation.findNavController(view).navigate(R.id.errFragment);
+                    else
+                        registerUser(view);
+
             }
         });
         mLink.setOnClickListener(new View.OnClickListener() {
@@ -262,7 +267,41 @@ public class RegisterFragment extends Fragment {
             }
         };
         requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
+
         return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        if(!AccountLab.get(getActivity()).checkPermissionRequired("Manifest.permission.INTERNET"))
+            requestForSpecificPermission();
+    }
+
+
+    private void requestForSpecificPermission() {
+        requestPermissions(new String[]
+                {Manifest.permission.INTERNET}, 101);
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case 101:
+                if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                    new AlertDialog.Builder(new ContextThemeWrapper(getActivity(), R.style.MyDialogTheme))
+                            .setTitle(R.string.alert_dialog_set_member_not_added)
+                            .setMessage(R.string.alert_dialog_no_permission_text)
+                            .setPositiveButton(android.R.string.yes, null)
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .show();
+                }
+                break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        }
     }
 
     private void forgetPassword() {
@@ -586,7 +625,9 @@ public class RegisterFragment extends Fragment {
                     mVerCode.requestFocus();
                     return;
                 }
-                PhoneAuthCredential credential = PhoneAuthProvider.getCredential(mVerificationId, mVerCode.getText().toString());
+                Log.d(MainFragment.TAG," after verify code");
+                PhoneAuthCredential credential = PhoneAuthProvider.getCredential(mVerificationId,
+                        mVerCode.getText().toString());
                 if(!TextUtils.isEmpty(mVerCode.getText())){
                     mVerCode.setEnabled(false);
                     mLLProgress.setVisibility(View.VISIBLE);
@@ -607,11 +648,13 @@ public class RegisterFragment extends Fragment {
                         if (task.isSuccessful()) {
                             showHome();
                             if(!TextUtils.isEmpty(mPasswordView.getText()))
-                                user.updatePassword(mPasswordView.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                user.updatePassword(mPasswordView.getText().toString())
+                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if (!task.isSuccessful()) {
-                                            Log.d(MainFragment.TAG, "Error password not updated" + task.getException());
+                                            Log.d(MainFragment.TAG, "Error password not updated"
+                                                    + task.getException());
                                         }
                                     }
                                 });

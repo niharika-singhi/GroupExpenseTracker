@@ -251,6 +251,6 @@
     <string name="member_name">Member name</string>
     <string name="admin">ADMIN</string>
     <string name="delete">Delete</string>
-    <string name="playstoreLink">https://play.google.com/store/apps/details?id=com.niharika.android.groupexpensetracker</string>
+    <string name="playstoreLink">https://play.google.com/store/apps/details?id=</string>
     <string name="alert_dialog_no_permission_text">You need to grant permission to use this feature.</string>
 </resources>

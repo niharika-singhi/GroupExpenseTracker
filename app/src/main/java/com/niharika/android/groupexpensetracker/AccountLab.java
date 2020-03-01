@@ -1,13 +1,19 @@
 package com.niharika.android.groupexpensetracker;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -38,7 +44,9 @@ public class AccountLab {
     private String mRegMsg = "Hi,\n\nWelcome to Team Expenses.Track your expenses for free." +
             "\n\n\nTeam\nExpenses",
             mNewMemberMsg = " has invited you to install app Team Expenses.Track your expenses for free." +
-                    "\nSteps -\n\t1. Install the app from the following link- \n\t" + "2. Register with your email id.\n\n\nTeam\nExpenses";
+                    "\nSteps -\n\t1. Install the app from the following link-" +
+                    "https://play.google.com/store/apps/details?id="+BuildConfig.APPLICATION_ID+" \n\t"
+                    + "2. Register with your email id.\n\n\nTeam\nExpenses";
 
     private AccountLab(Context context) {
         mContext = context.getApplicationContext();
@@ -736,6 +744,25 @@ public class AccountLab {
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
         return isConnected;
+        }
+
+
+    boolean checkPermissionRequired(String permission) {
+        int MyVersion = Build.VERSION.SDK_INT;
+        if (MyVersion > Build.VERSION_CODES.LOLLIPOP_MR1) {
+            if (!checkIfAlreadyhavePermission(permission)) {
+                return false;
+            }
+        }
+        return true;
+    }
+    private boolean checkIfAlreadyhavePermission(String permission) {
+        int result = ContextCompat.checkSelfPermission(mContext, permission);
+        if (result == PackageManager.PERMISSION_GRANTED)
+            return true;
+            else
+                return false;
+
     }
 
     protected String formatPhNumber(String phoneNumber) {

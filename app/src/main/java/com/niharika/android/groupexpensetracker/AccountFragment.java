@@ -641,8 +641,9 @@ public class AccountFragment extends Fragment {
     }
 
     private void requestForSpecificPermission() {
-        ActivityCompat.requestPermissions(getActivity(), new String[]
-                {Manifest.permission.READ_CONTACTS, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 101);
+        requestPermissions(new String[]
+                {Manifest.permission.READ_CONTACTS, Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE}, 101);
     }
 
 
@@ -663,6 +664,7 @@ public class AccountFragment extends Fragment {
                 break;
             default:
                 super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
         }
     }
 }
