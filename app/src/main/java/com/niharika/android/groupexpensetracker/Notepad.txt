@@ -1,11 +1,7 @@
--unable to login through phone
--add member thru account does not has req for permissions
--the sms code cums dats y it gets verified bt from my end it ask for ver code
--share app link
--share app link in the email of the person added
--afer askinf for permissions it dont go to contacts
--create a table and read email and password from der for sender email details
--the app crashes when its opening and u go to another acivity
+no need for internet permission
+Del prod app
+still need to press two times for contacts
+eye button
 
 chk dis
  java.lang.NullPointerException: Can't pass null for argument 'pathString' in child()
