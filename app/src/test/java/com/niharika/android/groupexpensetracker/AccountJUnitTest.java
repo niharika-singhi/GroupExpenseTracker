@@ -9,7 +9,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 
 @RunWith(JUnit4.class)
-public class AccountTest {
+public class AccountJUnitTest {
     private Account mAccount;
 
     @Before

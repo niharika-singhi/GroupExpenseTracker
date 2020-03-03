@@ -8,8 +8,8 @@ android {
         minSdkVersion 19
         multiDexEnabled true
         targetSdkVersion 28
-        versionCode 7
-        versionName "1.6"
+        versionCode 8
+        versionName "1.7"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -30,6 +30,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-database:19.0.0'
     implementation 'com.googlecode.libphonenumber:libphonenumber:8.0.1'
     testImplementation 'junit:junit:4.12'
+    testImplementation 'org.mockito:mockito-core:2.7.22'
     androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0-beta01'

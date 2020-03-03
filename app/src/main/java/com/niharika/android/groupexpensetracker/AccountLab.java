@@ -46,6 +46,7 @@ public class AccountLab {
                     + "2. Register with your email id.\n\n\nTeam\nExpenses";
 
     private AccountLab(Context context) {
+        //mContext = context; for testing mockito
         mContext = context.getApplicationContext();
         mAccounts = new ArrayList<Account>();
     }
@@ -56,6 +57,11 @@ public class AccountLab {
         return sAccountLab;
     }
 
+    //for testing mockito
+    String getAppName(){
+        return mContext.getString(R.string.app_title);
+
+    }
     protected interface FirebaseCallbackAccounts {
         void onCallback(ArrayList<Account> accountList);
     }
