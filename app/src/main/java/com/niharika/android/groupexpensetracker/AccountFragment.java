@@ -266,19 +266,7 @@ public class AccountFragment extends Fragment {
             }
         }, "A", null);
 
-        mAddMemberContacts.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!AccountLab.get(getActivity()).isNetworkAvailableAndConnected())
-                    Navigation.findNavController(view).navigate(R.id.errFragment);
-                else {
-                    if (AccountLab.get(getActivity()).checkPermissionRequired("Manifest.permission.READ_CONTACTS"))
-                        callIntentImportContacts();
-                    else
-                        requestForSpecificPermission();
-                }
-            }
-        });
+
         mShowMembersButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -317,6 +305,19 @@ public class AccountFragment extends Fragment {
                     Bundle bundle = new Bundle();
                     bundle.putSerializable(ARG_ACC_ID, mAccount.getAccNo());
                     Navigation.findNavController(view).navigate(R.id.action_accountTabFragment_to_memberListFragment, bundle);
+                }
+            }
+        });
+        mAddMemberContacts.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!AccountLab.get(getActivity()).isNetworkAvailableAndConnected())
+                    Navigation.findNavController(view).navigate(R.id.errFragment);
+                else {
+                    if (AccountLab.get(getActivity()).checkPermissionRequired("Manifest.permission.READ_CONTACTS"))
+                        callIntentImportContacts();
+                    else
+                        requestForSpecificPermission();
                 }
             }
         });
@@ -608,10 +609,12 @@ public class AccountFragment extends Fragment {
         AccountLab.get(getActivity()).updateMember(member);
         mAccount.addMemberToAccount(member.getMemberId(), "MEMBER");
         if (newMemberFlag && member.getEmailId() != null) {
-            new SendEmailTask().execute(new String[]{member.getEmailId(), AccountLab.get(getActivity()).getNewMemberMsg()});
+            new SendEmailTask().execute(new String[]{member.getEmailId(),
+                    AccountLab.get(getActivity()).getNewMemberMsg()});
             newMemberFlag = false;
         }
         updateMemberUI();
+        mShowMembersButton.performClick();
     }
 
     private void requestForSpecificPermission() {

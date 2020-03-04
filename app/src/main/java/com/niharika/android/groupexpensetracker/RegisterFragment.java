@@ -9,6 +9,9 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
+import android.text.method.TransformationMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -167,19 +170,18 @@ public class RegisterFragment extends Fragment {
             sendSMS(mUsername);
         }
         setViewType();
-        mEyeButton.setOnTouchListener(new View.OnTouchListener() {
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        mPasswordView.setInputType(InputType.TYPE_CLASS_TEXT);
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        mPasswordView.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                        break;
-                }
-                return true;
+
+        mEyeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TransformationMethod tMethod=mPasswordView.getTransformationMethod();
+                if(tMethod.equals(HideReturnsTransformationMethod.getInstance())) {
+                    mPasswordView.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                } else
+                mPasswordView.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
             }
         });
+
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -270,39 +272,6 @@ public class RegisterFragment extends Fragment {
         requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
 
         return view;
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        if (!AccountLab.get(getActivity()).checkPermissionRequired("Manifest.permission.INTERNET"))
-            requestForSpecificPermission();
-    }
-
-
-    private void requestForSpecificPermission() {
-        requestPermissions(new String[]
-                {Manifest.permission.INTERNET}, 101);
-    }
-
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        switch (requestCode) {
-            case 101:
-                if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                    new AlertDialog.Builder(new ContextThemeWrapper(getActivity(), R.style.MyDialogTheme))
-                            .setTitle(R.string.alert_dialog_set_member_not_added)
-                            .setMessage(R.string.alert_dialog_no_permission_text)
-                            .setPositiveButton(android.R.string.yes, null)
-                            .setIcon(android.R.drawable.ic_dialog_alert)
-                            .show();
-                }
-                break;
-            default:
-                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        }
     }
 
     private void forgetPassword() {

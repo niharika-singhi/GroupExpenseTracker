@@ -1,7 +1,9 @@
-no need for internet permission
+no need for internet permission done
 Del prod app
-still need to press two times for contacts
+still need to press two times for contacts st
 eye button
+after mem added display it by show button
+read emai n passwd frm db
 
 chk dis
  java.lang.NullPointerException: Can't pass null for argument 'pathString' in child()
