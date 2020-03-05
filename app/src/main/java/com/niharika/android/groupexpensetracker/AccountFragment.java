@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,8 +27,12 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.google.android.material.snackbar.Snackbar.*;
 
 public class AccountFragment extends Fragment {
     private static final String ARG_ACC_ID = "account_id", ARG_MEMBER_ID = "member_id", ARG_TRANS_TYPE = "transaction_type";
@@ -615,6 +620,7 @@ public class AccountFragment extends Fragment {
         }
         updateMemberUI();
         mShowMembersButton.performClick();
+        make(getView().getRootView(),R.string.member_added_msg, LENGTH_LONG).show();
     }
 
     private void requestForSpecificPermission() {

@@ -29,6 +29,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import static androidx.navigation.fragment.NavHostFragment.findNavController;
+import static com.google.android.material.snackbar.Snackbar.LENGTH_LONG;
+import static com.google.android.material.snackbar.Snackbar.make;
 
 
 /**
@@ -334,8 +336,10 @@ public class EditMemberFragment extends Fragment {
             mNewMemberFlag = false;
         }
         NavController navController = findNavController(this);
-        if (mCPasswordLabel.getVisibility() != View.VISIBLE)
+        if (mCPasswordLabel.getVisibility() != View.VISIBLE){
+            make(getView().getRootView(),R.string.member_added_msg, LENGTH_LONG).show();
         navController.navigate(R.id.action_editMemberFragment_to_accountTabFragment);
+        }
     }
 
     private void updateMemberDetails() {//update the current user details

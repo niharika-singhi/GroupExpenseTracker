@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    tools:context="com.niharika.android.groupexpensetracker.com.niharika.android.teamexpenses.AccountFragment">
+    android:id="@+id/root_ll"
+    tools:context="com.niharika.android.groupexpensetracker.AccountFragment">
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nested_scrollView"
