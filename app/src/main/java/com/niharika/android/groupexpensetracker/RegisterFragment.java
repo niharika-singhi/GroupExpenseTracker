@@ -47,6 +47,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.FirebaseTooManyRequestsException;
@@ -61,6 +62,10 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
+
+import org.json.JSONArray;
 
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
@@ -183,8 +188,12 @@ public class RegisterFragment extends Fragment {
         });
 
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
+            private String newToken;
+
             @Override
             public void onClick(View view) {
+
+
                 mEmailView.setError(null);
                 mPasswordView.setError(null);
                 if (mViewType != null && mViewType.equals("FP")) {
@@ -583,7 +592,6 @@ public class RegisterFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 String code = mVerCode.getText().toString().trim();
-
                 if (code.isEmpty() || code.length() < 6) {
                     mVerCode.setError("Please enter valid code");
                     mVerCode.requestFocus();

@@ -103,4 +103,12 @@ public class Member {
     }
 
 
+    public String getDisplayName() {
+        if (getMemberName() != null)
+            return getMemberName();
+        else if (getEmailId() != null)
+            return getEmailId();
+        else
+            return getMobNo();
+    }
 }

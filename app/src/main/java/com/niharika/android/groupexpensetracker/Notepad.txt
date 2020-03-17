@@ -109,3 +109,17 @@ android {
         }
     }
 }
+
+
+cR8NMg3GRcKmxhIIaC9Hgf:APA91bEEoaTFkpyu8vLA628mrhs1pwSj0A2Lhxn4R1xeGmX-87ZBmZWwhIv7fPxAeWTEjbA2j6T5z2JEdt5FPvocJQupxYy0rMaD2MJo_mLg8xkv7xmvXlmQ3LTsKyJGj07NNNE3MNVL
+
+
+client side
+-make a class for storing data to db token,
+-a function to get reg ids, of ppl to whom notification shud be sent
+-send notification when a user is added
+-send notification to a member when a transfer is made
+
+server side
+-send notifications to reg ids
+-get key from database

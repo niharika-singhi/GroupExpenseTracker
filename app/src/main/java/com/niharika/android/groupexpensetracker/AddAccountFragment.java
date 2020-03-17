@@ -225,13 +225,17 @@ public class AddAccountFragment extends Fragment {
             return;
 
         }
+        AccountLab.get(getActivity()).updateMember(member);
+        mAccount.addMemberToAccount(member.getMemberId(), "MEMBER");
+        String msg=AccountLab.get(getActivity())
+                .getNewMemberNotificationMsg(mAccount.getAccName(),member.getDisplayName());
+        AccountLab.get(getActivity()).sendNotifications(mAccount,msg);
+
         if (newMemberFlag && member.getEmailId() != null) {
             new SendEmailTask().execute(new String[]{member.getEmailId(),
                     AccountLab.get(getActivity()).getNewMemberMsg()});
             newMemberFlag = false;
         }
-        AccountLab.get(getActivity()).updateMember(member);
-        mAccount.addMemberToAccount(member.getMemberId(), "MEMBER");
         updateMemberUI();
     }
 

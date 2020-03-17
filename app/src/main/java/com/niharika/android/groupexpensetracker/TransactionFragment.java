@@ -144,13 +144,20 @@ public class TransactionFragment extends Fragment {
                 transaction2.setValue(mTransaction.getValue());
                 transaction2.setDate(tDate.getTime());
                 transaction2.setMemberId(transferToId);
-                if (mDescription.getText().toString().equals(""))
-                    mTransaction.setDescription("To " + transferToName.substring(0,8) + "(" + (AccountLab.get(getActivity()).getAccount(accNo2).getAccName()) + ")");
+                if (mDescription.getText().toString().equals("")) {
+                    String tName=transferToName;
+                    if(transferToName.length()>8)
+                    tName=transferToName.substring(0, 8);
+                    mTransaction.setDescription("To " + tName + "(" + (AccountLab.get(getActivity()).getAccount(accNo2).getAccName()) + ")");
+                }
                 else
                     mTransaction.setDescription(mDescription.getText().toString());
                 AccountLab.get(getActivity()).addTransaction(AccountLab.get(getActivity()).getAccount(accNo2), transaction2);
                 AccountLab.get(getActivity()).transfer(mAccount, new Transfer(AccountLab.get(getActivity()).getNewTransferId(),
                         transaction2.getTid(), mTransaction.getTid(), mAccount.getAccNo(), accNo2));
+                String msg=AccountLab.get(getActivity()).getTransferNotificationMsg(mAccount.getAccName(),transaction2.getValue());
+
+                AccountLab.get(getActivity()).sendNotifications(transferToId,msg);
             }
         }
         if (!amtError)

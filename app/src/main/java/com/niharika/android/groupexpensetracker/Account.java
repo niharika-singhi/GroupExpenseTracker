@@ -129,6 +129,7 @@ public class Account {
         databaseRef.child(userId).setValue(new Account_Member(getAccNo(), userId, role));
         databaseRef = FirebaseDatabase.getInstance().getReference("member_account").child(userId);
         databaseRef.child(getAccNo()).setValue(new Account_Member(getAccNo(), userId, role));
+
     }
 
     public void updateMember(Member mNew) {

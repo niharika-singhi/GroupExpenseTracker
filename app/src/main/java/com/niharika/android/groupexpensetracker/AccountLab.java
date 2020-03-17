@@ -1,5 +1,6 @@
 package com.niharika.android.groupexpensetracker;
 
+import android.bluetooth.BluetoothClass;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
@@ -62,6 +63,18 @@ public class AccountLab {
         return mContext.getString(R.string.app_title);
 
     }
+
+    public String getNewMemberNotificationMsg(String accName, String newMemberName) {
+        return getUser().getDisplayName()
+                +" has added member "+newMemberName
+                +"to account "+accName;
+    }
+
+    public String getTransferNotificationMsg(String accName, Double value) {
+        return getUser().getDisplayName()+"("+accName+")"+" has transferred "+value.toString();
+    }
+
+
     protected interface FirebaseCallbackAccounts {
         void onCallback(ArrayList<Account> accountList);
     }
@@ -72,6 +85,10 @@ public class AccountLab {
 
     protected interface FirebaseCallback {
         void onCallback(Member oldMember);
+    }
+
+    protected interface FirebaseCallbackDevice {
+        void onCallback(ArrayList<DeviceToken> deviceList);
     }
 
     protected interface FirebaseCallbackLoadTransaction {
@@ -876,5 +893,85 @@ public class AccountLab {
                                           }
         );
     }
+    public void addToken(String newToken) {
+        databaseRef = FirebaseDatabase.getInstance().getReference("device").child(newToken);
+        databaseRef.setValue(new DeviceToken(newToken,getUser().getMemberId()));
+    }
+
+    //sends new Member Notifications
+    public void sendNotifications(final Account account, final String msg) {
+        account.getMemberIds(new Account.FirebaseCallbackMemberIds() {
+            @Override
+            public void onCallbackMemberIds(List<String> memberList, String adminId) {
+                for(String m:memberList){
+                    if(m.equals(adminId)){
+                        memberList.remove(m);
+                        break;
+                    }
+                }
+                getTokens(new FirebaseCallbackDevice() {
+                    @Override
+                    public void onCallback(ArrayList<DeviceToken> deviceList) {
+                        for(DeviceToken d:deviceList)
+                            Log.d(MainFragment.TAG,d.getMemberId());
+                        SendPushNotification sendPushNotification =
+                                new SendPushNotification(mContext, deviceList,msg);
+                        sendPushNotification.execute();
+
+                    }
+                },memberList);
+            }
+        });
+
+    }
+
+    //Sends transfer notification
+    public void sendNotifications(final String receiverMemberId, final String msg) {
+                ArrayList receiverMemberList=new ArrayList<String>();
+                receiverMemberList.add(receiverMemberId);
+                getTokens(new FirebaseCallbackDevice() {
+                    @Override
+                    public void onCallback(ArrayList<DeviceToken> deviceList) {
+                        for(DeviceToken d:deviceList)
+                            Log.d(MainFragment.TAG,d.getMemberId());
+                        SendPushNotification sendPushNotification =
+                                new SendPushNotification(mContext, deviceList,msg);
+                        sendPushNotification.execute();
+
+                    }
+                },receiverMemberList);
+            }
+
+
+    private void getTokens(final FirebaseCallbackDevice firebaseCallbackDevice,final List<String> memberList) {
+        final ArrayList <DeviceToken> deviceList=new ArrayList<>();
+        for(int i=0;i<memberList.size();i++) {
+            final Query query = FirebaseDatabase.getInstance().getReference("device")
+                    .orderByChild("memberId").equalTo(memberList.get(i));
+            final int finalI = i;
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                    for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                        DeviceToken device = postSnapshot.getValue(DeviceToken.class);
+                        deviceList.add(device);
+                    }
+                    if ((finalI +1)== memberList.size()) {
+                        query.removeEventListener(this);
+                        firebaseCallbackDevice.onCallback(deviceList);
+                        return;
+                    }
+                }
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    if (BuildConfig.DEBUG)
+                        Log.d(MainFragment.TAG, "There was error reading data" + databaseError);
+                }
+            });
+        }
+
+    }
+
 
 }

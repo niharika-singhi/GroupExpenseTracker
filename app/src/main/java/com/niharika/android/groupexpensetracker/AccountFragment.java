@@ -27,7 +27,10 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -290,14 +293,19 @@ public class AccountFragment extends Fragment {
 
         showMembers();
         mAddMember.setOnClickListener(new View.OnClickListener() {
+            private String newToken;
+
             @Override
             public void onClick(View view) {
+
+
                 if (!AccountLab.get(getActivity()).isNetworkAvailableAndConnected())
                     Navigation.findNavController(view).navigate(R.id.errFragment);
                 else {
                     Bundle bundle = new Bundle();
                     bundle.putSerializable(ARG_ACC_ID, mAccount.getAccNo());
                     Navigation.findNavController(view).navigate(R.id.action_accountTabFragment_to_editMemberFragment, bundle);
+
                 }
             }
         });
@@ -314,19 +322,23 @@ public class AccountFragment extends Fragment {
             }
         });
         mAddMemberContacts.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
                 if (!AccountLab.get(getActivity()).isNetworkAvailableAndConnected())
                     Navigation.findNavController(view).navigate(R.id.errFragment);
                 else {
+                    /*
                     if (AccountLab.get(getActivity()).checkPermissionRequired("Manifest.permission.READ_CONTACTS"))
                         callIntentImportContacts();
                     else
-                        requestForSpecificPermission();
+                        requestForSpecificPermission();*/
                 }
             }
         });
         updateMemberUI();
+        
+       
         return view;
     }
 
@@ -410,13 +422,8 @@ public class AccountFragment extends Fragment {
 
         public void bindMember(Member member) {
             mMember = member;
-            if (mMember.getMemberName() != null)
-                mMemberName.setText(mMember.getMemberName());
-            else if (mMember.getEmailId() != null)
-                mMemberName.setText(mMember.getEmailId());
-            else
-                mMemberName.setText(mMember.getMobNo());
-            AccountLab.get(getActivity()).getTotalIncome(mAccount, new AccountLab.FirebaseCallbackCalculateTransaction() {
+                mMemberName.setText(mMember.getDisplayName());
+                AccountLab.get(getActivity()).getTotalIncome(mAccount, new AccountLab.FirebaseCallbackCalculateTransaction() {
                 @Override
                 public void onCallback(Double value) {
                     mMemberIncomeValue = value;
@@ -613,6 +620,12 @@ public class AccountFragment extends Fragment {
         }
         AccountLab.get(getActivity()).updateMember(member);
         mAccount.addMemberToAccount(member.getMemberId(), "MEMBER");
+
+        String msg=AccountLab.get(getActivity())
+                .getNewMemberNotificationMsg(mAccount.getAccName(),member.getDisplayName());
+        AccountLab.get(getActivity()).sendNotifications(mAccount,msg);
+
+
         if (newMemberFlag && member.getEmailId() != null) {
             new SendEmailTask().execute(new String[]{member.getEmailId(),
                     AccountLab.get(getActivity()).getNewMemberMsg()});

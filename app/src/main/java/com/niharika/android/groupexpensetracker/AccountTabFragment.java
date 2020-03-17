@@ -2,8 +2,11 @@ package com.niharika.android.groupexpensetracker;
 
 import android.os.Bundle;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
 
 import androidx.activity.OnBackPressedCallback;
@@ -81,6 +84,8 @@ public class AccountTabFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
 
+
+
     }
 
     public void onSaveInstanceState(Bundle savedInstanceState) {
@@ -145,6 +150,17 @@ public class AccountTabFragment extends Fragment {
             mAddAccount.setOnClickListener(Navigation.createNavigateOnClickListener(
                     R.id.action_accountTabFragment_to_addAccountFragment));
         }
+        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener( getActivity(),
+                new OnSuccessListener<InstanceIdResult>() {
+
+
+                    @Override
+                    public void onSuccess(InstanceIdResult instanceIdResult) {
+                        String newToken = instanceIdResult.getToken();
+                        AccountLab.get(getActivity()).addToken(newToken);
+                        Log.d(MainFragment.TAG,"Here in reg token"+newToken);
+                    }
+                });
 
     }
 
@@ -219,6 +235,7 @@ public class AccountTabFragment extends Fragment {
             }
         };
         requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
+
         return view;
     }
 }
